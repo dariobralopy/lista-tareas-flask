@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+
+{% block header %}
+    <h2>{% block title %}Listado de tareas{% endblock %}</h2>
+    {% if g.user %}
+        <a class="action" href="{{ url_for('tareas.create') }}">Agregar Nueva</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for tarea in tareas %}
+        <li class="tareas">
+            <div>
+                <h3>
+                    {% if tarea['completed'] == 1 %}
+                    <strike>{{ tarea['description'] }}</strike>
+                    {% else %}
+                    {{ tarea['description'] }}
+                    {% endif %}
+                </h3>
+                <div class="about">{{ tarea['created_at'] }}</div>
+                <a class="action" href="{{ url_for('tareas.update', id=tarea['id']) }}">Editar</a>
+            </div>
+        </li>
+        {% if not loop.last %}
+            <hr>
+        {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
